@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  train:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  predict:
+    build:
+      context: .
+      dockerfile: Dockerfile.predict
+    volumes:
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - train
